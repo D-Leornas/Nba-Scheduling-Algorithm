@@ -4,14 +4,14 @@ A scheduling algorithm that creates an optimized schedule for the NBA in order t
 ## Restrictions
 -82 games per season (October 18th to April 9th; Total of 173 games)  
 -Mandatory Days Off:  
-  -Christmas Eve  
-  -Election Day  
-  -All star week  
+&nbsp;&nbsp;&nbsp;&nbsp;-Christmas Eve  
+&nbsp;&nbsp;&nbsp;&nbsp;-Election Day  
+&nbsp;&nbsp;&nbsp;&nbsp;-All star week  
 -Mandatory Big Ticket Games:  
-  -Christmas Day  
-  -Thanksgiving  
-  -MLK Day  
-  -Rivals Week  
+&nbsp;&nbsp;&nbsp;&nbsp;-Christmas Day  
+&nbsp;&nbsp;&nbsp;&nbsp;-Thanksgiving  
+&nbsp;&nbsp;&nbsp;&nbsp;-MLK Day  
+&nbsp;&nbsp;&nbsp;&nbsp;-Rivals Week  
 -Every team has a schedule they submit for home games  
 
 ## End Goal Is To Create An Algorithm That Minimizes:
