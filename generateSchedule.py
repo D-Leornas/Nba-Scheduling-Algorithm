@@ -10,6 +10,7 @@ import random as rd
 startDate = date(2022, 10, 18)
 endDate = date(2023, 4, 9)
 maxGames = 82
+
 # West = 1, East = 2
 # Northwest = 1, Pacific = 2, Southwest = 3, Atlantic = 4, Central = 5, Southeast = 6
 teamInfo = {
