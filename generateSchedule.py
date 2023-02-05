@@ -56,8 +56,18 @@ for i in teamInfo:
 #    print(teams[i].name + " | " + str(teams[i].conference) + " | " + str(teams[i].division))
 
 for i in teams:
+    fourGameCounter = 0
     for j in teamInfo:
         if i.name == j:
             i.teamPlayCount.append(0)
-        if i.conference == teamInfo[j][0]:
-            #schedule
+        else:
+            if i.conference == teamInfo[j][0]:
+                if i.division == teamInfo[j][1]:
+                    i.teamPlayCount.append(4)
+                elif fourGameCounter < 6:
+                    i.teamPlayCount.append(4)
+                    fourGameCounter += 1
+                else:
+                    i.teamPlayCount.append(3)
+            else:
+                i.teamPlayCount.append(2)
