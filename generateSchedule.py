@@ -14,7 +14,7 @@ maxGames = 82
 # West = 1, East = 2
 # Northwest = 1, Pacific = 2, Southwest = 3, Atlantic = 4, Central = 5, Southeast = 6
 teamInfo = {
-"Atlanta Hawks": [2, 5],
+"Atlanta Hawks": [2, 6],
 "Boston Celtics": [2, 4],
 "Brooklyn Nets": [2, 4],
 "Charlotte Hornets": [2, 6],
@@ -46,28 +46,83 @@ teamInfo = {
 "Washington Wizards": [2, 6],
 }
 
+# This array will keep track of which conference teams will play each other 4 times
+# It will be an array of arrays
+conference4Plays = []
+for i in range(0, len(teamInfo)):
+    tempArray = []
+    conference4Plays.append(tempArray)
+
 teams = []
 
 for i in teamInfo:
-    t = Team(i, teamInfo[i][0], teamInfo[i][1])
+    t = Team(i, list(teamInfo.keys()).index(i),teamInfo[i][0], teamInfo[i][1])
     teams.append(t)
 
 #for i in range(0, len(teams)-1):
-#    print(teams[i].name + " | " + str(teams[i].conference) + " | " + str(teams[i].division))
+#print(teams[i].name + " | " + str(teams[i].conference) + " | " + str(teams[i].division))
+# This produces some teams with less than 82 games
+#for i in teams:
+#   for j in teamInfo:
+#       if i.name == j:
+#           i.teamPlayCount.append(0)
+#       else:
+#           if i.conference == teamInfo[j][0]:
+#               if i.division == teamInfo[j][1]:
+#                   i.teamPlayCount.append(4)
+#               # If i is not filled, j is not filled, i is not already on j, and j is not already in i
+#               elif len(conference4Plays[i.index]) < 6 and not conference4Plays[i.index].count(j) and not conference4Plays[list(teamInfo.keys()).index(j)].count(i) and len(conference4Plays[list(teamInfo.keys()).index(j)]) < 6:
+#                   i.teamPlayCount.append(4)
+#                   conference4Plays[i.index].append(j)
+#                   conference4Plays[list(teamInfo.keys()).index(j)].append(i.name)
+#               else:
+#                   i.teamPlayCount.append(3)
+#           else:
+#               i.teamPlayCount.append(2)
 
+# This produces some (less than before) teams with less than 82 games
 for i in teams:
-    fourGameCounter = 0
-    for j in teamInfo:
-        if i.name == j:
-            i.teamPlayCount.append(0)
-        else:
-            if i.conference == teamInfo[j][0]:
-                if i.division == teamInfo[j][1]:
-                    i.teamPlayCount.append(4)
-                elif fourGameCounter < 6:
-                    i.teamPlayCount.append(4)
-                    fourGameCounter += 1
-                else:
-                    i.teamPlayCount.append(3)
+    for j in teams:
+        if i.teamPlayCount[j.index] == 0:
+            if i.name == j.name:
+                i.teamPlayCount[j.index] = 0
             else:
-                i.teamPlayCount.append(2)
+                if i.conference == j.conference:
+                    if i.division == j.division:
+                        i.teamPlayCount[j.index] = 4
+                    # If i is not filled, j is not filled, i is not already on j, and j is not already in i
+                    elif len(conference4Plays[j.index]) < 6 and not conference4Plays[j.index].count(i) and not conference4Plays[i.index].count(j) and len(conference4Plays[i.index]) < 6:
+                        i.teamPlayCount[j.index] = 4
+                        j.teamPlayCount[i.index] = 4
+                        conference4Plays[i.index].append(j.name)
+                        conference4Plays[j.index].append(i.name)
+                    else:
+                        i.teamPlayCount[j.index] = 3
+                else:
+                    i.teamPlayCount[j.index] = 2
+
+# This is to verify each team play each other and the conference4plays are filled
+for i in teams:
+    if len(conference4Plays[i.index]) > 6 or len(conference4Plays[i.index]) < 6:
+        print(i.name + " are playing "  + str(len(conference4Plays[i.index])) + " teams")
+    for j in conference4Plays[i.index]:
+       if(not conference4Plays[list(teamInfo.keys()).index(j)].count(i.name)):
+            print(i.name + " are playing " + j + " but " + j + " are not playing " + i.name)
+
+# This is to verify each team has 82 games
+for i in teams:
+    if i.gamesScheduled() != 82:
+        print(i.name + " are playing " + str(i.gamesScheduled()) + " games")
+
+# This is to check individual teams' same conference 4 plays
+cont = 1
+while cont:
+    choice = input('Team number or e for exit ')
+    if choice == "e":
+        cont =  0
+    else:
+        for i in teamInfo:
+            print(i + " are played " + str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount[list(teamInfo.keys()).index(i)]) + " times")
+        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(4)) + " teams are played 4 times")
+        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(3)) + " teams are played 3 times")
+        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(2)) + " teams are played 2 times")
