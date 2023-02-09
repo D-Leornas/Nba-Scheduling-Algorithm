@@ -60,7 +60,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, cur, res):
                     res = findMaxGraphs(numVert, degreePer,copyVerts, copyList, -1, res)
     
     else:
-        print(adjList)
+        #print(adjList)
         res += 1
     
     return res

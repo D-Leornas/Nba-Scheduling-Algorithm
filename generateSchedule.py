@@ -1,5 +1,6 @@
 from datetime import date
 from team import Team
+from fourPlaysGraph2 import maxGraphs
 import random as rd
 
 # date in year, month, day
@@ -90,39 +91,37 @@ for i in teams:
                 if i.conference == j.conference:
                     if i.division == j.division:
                         i.teamPlayCount[j.index] = 4
-                    # If i is not filled, j is not filled, i is not already on j, and j is not already in i
-                    elif len(conference4Plays[j.index]) < 6 and not conference4Plays[j.index].count(i) and not conference4Plays[i.index].count(j) and len(conference4Plays[i.index]) < 6:
-                        i.teamPlayCount[j.index] = 4
-                        j.teamPlayCount[i.index] = 4
-                        conference4Plays[i.index].append(j.name)
-                        conference4Plays[j.index].append(i.name)
-                    else:
-                        i.teamPlayCount[j.index] = 3
                 else:
                     i.teamPlayCount[j.index] = 2
 
 # This is to verify each team play each other and the conference4plays are filled
-for i in teams:
-    if len(conference4Plays[i.index]) > 6 or len(conference4Plays[i.index]) < 6:
-        print(i.name + " are playing "  + str(len(conference4Plays[i.index])) + " teams")
-    for j in conference4Plays[i.index]:
-       if(not conference4Plays[list(teamInfo.keys()).index(j)].count(i.name)):
-            print(i.name + " are playing " + j + " but " + j + " are not playing " + i.name)
+#for i in teams:
+#    if len(conference4Plays[i.index]) > 6 or len(conference4Plays[i.index]) < 6:
+#        print(i.name + " are playing "  + str(len(conference4Plays[i.index])) + " teams")
+#    for j in conference4Plays[i.index]:
+#       if(not conference4Plays[list(teamInfo.keys()).index(j)].count(i.name)):
+#            print(i.name + " are playing " + j + " but " + j + " are not playing " + i.name)
 
 # This is to verify each team has 82 games
-for i in teams:
-    if i.gamesScheduled() != 82:
-        print(i.name + " are playing " + str(i.gamesScheduled()) + " games")
+#for i in teams:
+#    if i.gamesScheduled() != 82:
+#        print(i.name + " are playing " + str(i.gamesScheduled()) + " games")
 
 # This is to check individual teams' same conference 4 plays
-cont = 1
-while cont:
-    choice = input('Team number or e for exit ')
-    if choice == "e":
-        cont =  0
-    else:
-        for i in teamInfo:
-            print(i + " are played " + str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount[list(teamInfo.keys()).index(i)]) + " times")
-        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(4)) + " teams are played 4 times")
-        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(3)) + " teams are played 3 times")
-        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(2)) + " teams are played 2 times")
+#cont = 1
+#while cont:
+#    choice = input('Team number or e for exit ')
+#    if choice == "e":
+#        cont =  0
+#    else:
+#        for i in teamInfo:
+#            print(i + " are played " + str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount[list(teamInfo.keys()).index(i)]) + " times")
+#        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(4)) + " teams are played 4 times")
+#        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(3)) + " teams are played 3 times")
+#        print(str(teams[list(teamInfo.keys()).index(choice)].teamPlayCount.count(2)) + " teams are played 2 times")
+
+# maxGraphs requires a given graph to generate which same-conference teams play each other four times
+
+givenGraph = [[1, 12, 5, 9], [0, 7, 2, 9], [1, 6, 4, 13], [14, 7, 8, 5], [2, 5, 13, 9], [0, 3, 4, 8], [2, 10, 11, 12], [1, 3, 12, 11], [3, 5, 11, 13], [0, 1, 4, 10], [6, 9, 14, 13], [6, 7, 8, 14], [0, 6, 7, 12], [2, 4, 8, 10], [3, 10, 11, 12]]
+
+maxGraphs(15, 6, givenGraph)
