@@ -70,6 +70,7 @@ if __name__=="__main__":
     startTime = time.time()
     numVert = 6
     degreePer = 3
-    givenGames = [[0, 3], [0, 4], [1, 5]]
+    #givenGames = [[0, 3], [0, 4], [1, 5]]
+    givenGames = []
     print(maxGraphs(numVert, degreePer, givenGames))
     print("--- %s second ---" % (time.time() - startTime))
