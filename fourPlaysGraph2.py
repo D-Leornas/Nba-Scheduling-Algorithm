@@ -1,6 +1,7 @@
+import threading
 import time
 
-def maxGraphs(numVert, degreePer, givenGames):
+def maxGraphs(numVert, degreePer, givenGames, noPlays):
 
     # Bank for all vertices
     verts = []
@@ -28,11 +29,11 @@ def maxGraphs(numVert, degreePer, givenGames):
     # Current vertice
     cur = 0
 
-    res = findMaxGraphs(numVert, degreePer, verts, adjList, cur, res)
+    res = findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res)
 
     return res
 
-def findMaxGraphs(numVert, degreePer, verts, adjList, cur, res):
+def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
 
     # Find how many edges in current graph
     currentSize = 0
@@ -42,7 +43,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, cur, res):
     # Check if we have a complete graph
     if currentSize < numVert*degreePer:
         for v in verts:
-            if v != cur and not adjList[v].count(cur):
+            if v != cur and not adjList[v].count(cur) and not noPlays[cur].count(v) and not noPlays[v].count(cur):
                 copyList = []
                 for i in adjList:
                     copyList.append(i.copy())
@@ -55,10 +56,9 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, cur, res):
                     copyVerts.remove(cur)
 
                 if len(copyVerts) > 0:
-                    res = findMaxGraphs(numVert, degreePer,copyVerts, copyList, copyVerts[0], res)
+                    res = findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, copyVerts[0], res)
                 else:
-                    res = findMaxGraphs(numVert, degreePer,copyVerts, copyList, -1, res)
-    
+                    res = findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, -1, res)
     else:
         #print(adjList)
         res += 1
@@ -68,9 +68,12 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, cur, res):
 # Driver Code
 if __name__=="__main__":
     startTime = time.time()
-    numVert = 6
+    numVert = 8
     degreePer = 3
     #givenGames = [[0, 3], [0, 4], [1, 5]]
     givenGames = []
-    print(maxGraphs(numVert, degreePer, givenGames))
+    noPlays = []
+    for i in range(numVert):
+        noPlays.append([])
+    print(maxGraphs(numVert, degreePer, givenGames, noPlays))
     print("--- %s second ---" % (time.time() - startTime))
