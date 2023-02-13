@@ -88,7 +88,6 @@ class CustomThread(Thread):
                 self.total += 1
 
 def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
-
     # Find how many edges in current graph
     currentSize = 0
     for i in adjList: # O(N)
@@ -146,7 +145,7 @@ if __name__=="__main__":
         if len(adjList[i]) == degreePer:
             verts.remove(i)
 
-    maxDepth = 2
+    maxDepth = 1
 
     thisLock = Lock()
     total = 0
@@ -155,6 +154,8 @@ if __name__=="__main__":
     
     thread.start()
 
+    #while True:
+    #    print(threading.active_count())
     thread.join()
 
     #data = thread.value
