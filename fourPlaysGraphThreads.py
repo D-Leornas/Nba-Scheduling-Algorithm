@@ -122,7 +122,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
 # Driver Code
 if __name__=="__main__":
     startTime = time.time()
-    numVert = 10
+    numVert = 8
     degreePer = 2
     #givenGames = [[0, 3], [0, 4], [1, 5]]
     givenGames = []
@@ -137,9 +137,6 @@ if __name__=="__main__":
     adjList = []
     for i in verts:
         adjList.append([])
-    for i in givenGames:
-        adjList[i[0]].append(i[1])
-        adjList[i[1]].append(i[0])
     
     for i in verts:
         if len(adjList[i]) == degreePer:
