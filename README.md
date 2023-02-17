@@ -1,6 +1,7 @@
 # Nba-Scheduling-Algorithm
 A scheduling algorithm that creates an optimized schedule for the NBA in order to prevent back and forth traveling, back-to-backs, and load management.
 
+## Reference Old Man and the Three Live Show with CJ McCollum
 ## Restrictions
 -Every team plays their:  
 &nbsp;&nbsp;&nbsp;&nbsp;-Division teams 4 times  
