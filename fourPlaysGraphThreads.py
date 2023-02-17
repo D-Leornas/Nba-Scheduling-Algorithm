@@ -15,7 +15,7 @@ class CustomThread(Thread):
         self.degreePer = degreePer
         self.noPlays = noPlays
         self.verts = verts
-        self.adjList = adjList
+        self.adjList
         self.cur = cur
         self.maxDepth = maxDepth
         self.depth = depth
@@ -34,7 +34,7 @@ class CustomThread(Thread):
         # Check if we have a complete graph
         if currentSize < self.numVert*self.degreePer:
             for v in self.verts:
-                if v != self.cur and not self.adjList[v].count(self.cur) and not self.noPlays[self.cur].count(v) and not self.noPlays[v].count(self.cur):
+                if v != self.cur and not self.adjList[v].count(self.cur) and not self.noPlays[v].count(self.cur):
                     copyList = []
                     for i in self.adjList:
                         copyList.append(i.copy())
@@ -122,7 +122,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
 # Driver Code
 if __name__=="__main__":
     startTime = time.time()
-    numVert = 8
+    numVert = 4
     degreePer = 2
     #givenGames = [[0, 3], [0, 4], [1, 5]]
     givenGames = []

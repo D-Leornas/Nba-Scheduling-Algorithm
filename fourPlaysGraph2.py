@@ -42,7 +42,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
     # Check if we have a complete graph
     if currentSize < numVert*degreePer: # O(1)
         for v in verts: # O(N)
-            if v != cur and not adjList[v].count(cur) and not noPlays[cur].count(v) and not noPlays[v].count(cur): # O(1)
+            if v != cur and not adjList[v].count(cur) and not noPlays[v].count(cur): # O(1)
                 copyList = []
                 for i in adjList: # O(N)
                     copyList.append(i.copy())
@@ -68,7 +68,7 @@ def findMaxGraphs(numVert, degreePer, verts, adjList, noPlays, cur, res):
 # Driver Code
 if __name__=="__main__":
     startTime = time.time()
-    numVert = 9 # N
+    numVert = 5 # N
     degreePer = 2
     #givenGames = [[0, 3], [0, 4], [1, 5]]
     givenGames = []

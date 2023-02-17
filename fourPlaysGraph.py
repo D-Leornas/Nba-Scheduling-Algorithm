@@ -73,8 +73,8 @@ if __name__=="__main__":
     # N vertices, M edges, D degree per edge
     # 15 Vertices for 15 teams
     # 45 edges because 15 teams face 6 opposing teams (15*6) and divide that by 2 since the graph is undirected
-    N = 6
-    D = 3
+    N = 5
+    D = 2
     M = N*D
  
     # P = 105 way to choose 2 vertices
