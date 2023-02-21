@@ -45,7 +45,7 @@ def findMaxGraphs(k, v, d, res, adj, c, bank):
             tempAdj = []
             for i in adj:
                 bank[len(bank)-1].append(i.copy())
-            print(adj)
+            #print(adj)
     return res
  
 def checkIsomorphism(adj, bank, n):
@@ -73,7 +73,7 @@ if __name__=="__main__":
     # N vertices, M edges, D degree per edge
     # 15 Vertices for 15 teams
     # 45 edges because 15 teams face 6 opposing teams (15*6) and divide that by 2 since the graph is undirected
-    N = 5
+    N = 8
     D = 2
     M = N*D
  

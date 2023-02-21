@@ -1,6 +1,6 @@
 import java.util.*;
 import java.util.concurrent.*;
-public class fourPlaysGraphThreadsJava {
+public class fourPlaysGraphThreadsJava2 {
     public static void main(String[] args) {
         long startTime = System.nanoTime();
         int numVert = 4;
@@ -83,81 +83,63 @@ class CustomThread extends Thread {
     }
 
     public void run() {
-        int currentSize = 0;
-        for (int i = 0; i < adjList.size(); i++) {
-            currentSize += adjList.get(i).size();
-        }
 
         ArrayList<CustomThread> threadTracker = new ArrayList<CustomThread>();
         int threadCounter = 0;
-
-        if (currentSize < (numVert*degreePer)) {
+        if (depth < maxDepth) {
             for (int i : verts) {
-                if (i > cur && adjList.get(i).size() < degreePer && adjList.get(cur).size() < degreePer && !(adjList.get(i).contains(cur)) && !(noPlays.get(i).contains(cur))) {
-                    ArrayList<ArrayList<Integer>> copyList = new ArrayList<ArrayList<Integer>>();
-                    for(int j = 0; j < adjList.size(); j++) {
-                        ArrayList<Integer> temp = new ArrayList<Integer>();
-                        for(int k = 0; k < adjList.get(j).size(); k++) {
-                            temp.add(adjList.get(j).get(k));
-                        }
-                        copyList.add(temp);
+                ArrayList<ArrayList<Integer>> copyList = new ArrayList<ArrayList<Integer>>();
+                for(int j = 0; j < adjList.size(); j++) {
+                    ArrayList<Integer> temp = new ArrayList<Integer>();
+                    for(int k = 0; k < adjList.get(j).size(); k++) {
+                        temp.add(adjList.get(j).get(k));
                     }
-                    //for (int j = 0; j < adjList.size(); j++) {
-                    //    copyList.add(new ArrayList<Integer>());
-                    //    copyList.get(j).addAll(adjList.get(j));
-                    //}
-                    copyList.get(i).add(cur);
-                    copyList.get(cur).add(i);
-                    ArrayList<Integer> copyVerts = new ArrayList<Integer>(verts);
-                    if (copyList.get(i).size() == degreePer)
-                        copyVerts.remove(verts.indexOf(i));
-                    if (copyList.get(cur).size() == degreePer)
-                        copyVerts.remove(verts.indexOf(cur));
+                    copyList.add(temp);
+                }
+                ArrayList<Integer> copyVerts = new ArrayList<Integer>(verts);
 
-                    if (depth <= maxDepth) {
-                        Semaphore newLock = new Semaphore(1);
-                        int newTotal = 0;
-                        if (copyVerts.size() > 0) {
-                            threadTracker.add(new CustomThread(numVert, degreePer, copyVerts, copyList, noPlays, copyVerts.get(0), maxDepth, depth+1, newLock, newTotal));
-                            threadTracker.get(threadCounter).start();
-                            threadCounter += 1;
-                        }
-                        else {
-                            threadTracker.add(new CustomThread(numVert, degreePer, copyVerts, copyList, noPlays, -1, maxDepth, depth+1, newLock, newTotal));
-                            threadTracker.get(threadCounter).start();
-                            threadCounter += 1;
-                        }
-                    }
-                    else {
-                        if (copyVerts.size() > 0) {
-                            this.total += findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, copyVerts.get(0), 0);
-                        }
-                        else {
-                            this.total += findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, -1, 0);
-                        }
-                    }
-                }
-            }
+                Semaphore newLock = new Semaphore(1);
+                int newTotal = 0;
 
-            for (int i = 0; i < threadCounter; i++) {
-                try {
-                    threadTracker.get(i).join();
+                if (copyVerts.size() > 0) {
+                    threadTracker.add(new CustomThread(numVert, degreePer, copyVerts, copyList, noPlays, i, maxDepth, depth+1, newLock, newTotal));
+                    threadTracker.get(threadCounter).start();
+                    threadCounter += 1;
                 }
-                catch (InterruptedException e) {
-                    System.out.println(e);
+                else {
+                    threadTracker.add(new CustomThread(numVert, degreePer, copyVerts, copyList, noPlays, -1, maxDepth, depth+1, newLock, newTotal));
+                    threadTracker.get(threadCounter).start();
+                    threadCounter += 1;
                 }
-                this.total += threadTracker.get(i).total;
             }
         }
         else {
+            ArrayList<ArrayList<Integer>> copyList = new ArrayList<ArrayList<Integer>>();
+            for(int j = 0; j < adjList.size(); j++) {
+                ArrayList<Integer> temp = new ArrayList<Integer>();
+                for(int k = 0; k < adjList.get(j).size(); k++) {
+                    temp.add(adjList.get(j).get(k));
+                }
+                copyList.add(temp);
+            }
+            ArrayList<Integer> copyVerts = new ArrayList<Integer>(verts);
+
+            if (copyVerts.size() > 0) {
+                this.total += findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, copyVerts.get(0), 0);
+            }
+            else {
+                this.total += findMaxGraphs(numVert, degreePer, copyVerts, copyList, noPlays, -1, 0);
+            }
+        }
+
+        for (int i = 0; i < threadCounter; i++) {
             try {
-            thisLock.acquire();
+                threadTracker.get(i).join();
             }
             catch (InterruptedException e) {
                 System.out.println(e);
             }
-            this.total += 1;
-            thisLock.release();
+            this.total += threadTracker.get(i).total;
         }
     }
 
@@ -169,9 +151,9 @@ class CustomThread extends Thread {
         }
 
         if (currentSize < (numVert*degreePer)) {
-            if (cur <= numVert/2) {
+            if (cur < numVert/2) {
                 for (int i : verts) {
-                    if (i > cur && (adjList.get(cur).size() == 0 || adjList.get(cur).get(adjList.get(cur).size()-1) < i) && adjList.get(cur).size() < degreePer &&  adjList.get(i).size() < degreePer && !(adjList.get(i).contains(cur)) && !(noPlays.get(i).contains(cur))) {
+                    if (i > cur && adjList.get(cur).size() < degreePer &&  adjList.get(i).size() < degreePer && !(adjList.get(i).contains(cur)) && !(noPlays.get(i).contains(cur))) {
                         ArrayList<ArrayList<Integer>> copyList = new ArrayList<ArrayList<Integer>>();
                         for(int j = 0; j < adjList.size(); j++) {
                             ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -199,7 +181,7 @@ class CustomThread extends Thread {
             }
             else {
                 for (int i : verts) {
-                    if (i > cur && (adjList.get(cur).size() == 0 || adjList.get(cur).get(adjList.get(cur).size()-1) > i) && adjList.get(cur).size() < degreePer &&  adjList.get(i).size() < degreePer && !(adjList.get(i).contains(cur)) && !(noPlays.get(i).contains(cur))) {
+                    if (i > cur && adjList.get(cur).size() < degreePer &&  adjList.get(i).size() < degreePer && !(adjList.get(i).contains(cur)) && !(noPlays.get(i).contains(cur))) {
                         ArrayList<ArrayList<Integer>> copyList = new ArrayList<ArrayList<Integer>>();
                         for(int j = 0; j < adjList.size(); j++) {
                             ArrayList<Integer> temp = new ArrayList<Integer>();
