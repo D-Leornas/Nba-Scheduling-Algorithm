@@ -26,7 +26,7 @@ A scheduling algorithm that creates an optimized schedule for the NBA in order t
 -Back-to-back games  
 -Consecutive long flights  
 ## And Maximizes:
--Game clustering (Clusters of nearby games)  
+-Geographical game clustering (Consecutive game locations being close together)  
 
 ## Inputs:
 -Team schedules  
