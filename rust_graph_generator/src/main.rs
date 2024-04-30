@@ -40,8 +40,8 @@ const TEST_TEAMS: [(u8, &str, u8, u8); 8] = [
 fn main() {
     let mut schedule = [[0i8; TEST_ROWS]; SCHEDULE_LENGTH];
     let result: u64;
-
     let mut teams: Vec<Team> = Vec::new();
+
     for team in TEST_TEAMS {
         teams.push(build_team(team.0, team.1.into(), team.2, team.3));
     }
